@@ -7,7 +7,7 @@ def open_movie_reservation():
 
 # 영화 평점
 def open_rating_view():
-    pass
+    os.system('python movieRating.py')
 
 # KTX 예매
 def open_ktx_reservation():
