@@ -1,3 +1,4 @@
+##1752022이해빈
 import tkinter as tk
 from tkinter import scrolledtext
 import threading
