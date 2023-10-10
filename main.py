@@ -1,13 +1,15 @@
-import tkinter as tk
-import os
 ##본인꺼 외에 건들지 마세요
 # 영화 예매
+import subprocess
+import tkinter as tk
+import os
+
 def open_movie_reservation():
-    os.system('python moviedata.py')
+    subprocess.Popen(['python', 'moviedata.py'])
 
 # 영화 평점
 def open_rating_view():
-    os.system('python movieRating.py')
+   subprocess.Popen('python movieRating.py')
 
 # KTX 예매
 def open_ktx_reservation():
