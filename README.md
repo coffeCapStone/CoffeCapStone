@@ -3,4 +3,4 @@
 
 Chrome 117.0.5938.132
 
-설치된 패키지 beautifulsoup4 bs4 pandas selenium lxml PyQt5
+설치된 패키지 beautifulsoup4, bs4, pandas, selenium lxml, PyQt5, openpyxl
