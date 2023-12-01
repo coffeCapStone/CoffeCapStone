@@ -1,3 +1,4 @@
+# 1961801 권강민 식당예약 크롤링
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
