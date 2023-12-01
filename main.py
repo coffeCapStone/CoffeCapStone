@@ -1,9 +1,8 @@
-##본인꺼 외에 건들지 마세요
-# 영화 예매
 import subprocess
 import tkinter as tk
 import os
-
+##본인꺼 외에 건들지 마세요
+# 영화 예매
 def open_movie_reservation():
     subprocess.Popen(['python', 'moviedata.py'])
 
@@ -21,11 +20,11 @@ def open_naver_shopping():
 
 # 식당 예약
 def open_restaurant_reservation():
-    pass
+    subprocess.Popen(['python', 'sikdang_reserve.py'])
 
 # 주식 정보
 def open_stock_info():
-    pass
+    subprocess.Popen(['python', 'zusik.py'])
 
 # 쿠팡 및 쇼핑몰별 가격 비교
 def open_price_comparison():
