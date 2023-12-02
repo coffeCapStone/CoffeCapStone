@@ -1,3 +1,4 @@
+#1752022 이해빈
 import subprocess
 import tkinter as tk
 import os
@@ -28,7 +29,7 @@ def open_stock_info():
 
 # 쿠팡 및 쇼핑몰별 가격 비교
 def open_price_comparison():
-    pass
+    subprocess.Popen(['python', 'CPangCR.py'])
 
 root = tk.Tk()
 
@@ -50,7 +51,7 @@ restaurant_button.pack()
 stock_info_button = tk.Button(root, text="주식 정보", command=open_stock_info)
 stock_info_button.pack()
 
-price_comparison_button = tk.Button(root, text="쿠팡 및 쇼핑몰별 가격 비교", command=open_price_comparison)
+price_comparison_button = tk.Button(root, text="쿠팡 가격 비교", command=open_price_comparison)
 price_comparison_button.pack()
 
 root.mainloop()
