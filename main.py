@@ -13,7 +13,7 @@ def open_rating_view():
 
 # KTX 예매
 def open_ktx_reservation():
-    pass
+    subprocess.Popen(['python','traincrawling.py'])
 
 # 네이버 쇼핑 특가 목록
 def open_naver_shopping():
