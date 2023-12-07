@@ -158,15 +158,15 @@ def select_train():
             if unavaiable_seat == "예약하기":
                 driver.find_element(By.XPATH,'//*[@id="tableResult"]/tbody/tr[1]/td[6]/a/img').click()
                 time.sleep(3)
-                
+                break
             else:
                 #여기 오류 발생
                 #만약 매진으로 표시가 되어 표가 없으면 다시 조회하기 버튼을 누르고 다시 예매하기 버튼을 계속 다음창 넘어갈때까지 하고 싶은데 이걸 어떻게 해야할까
                 driver.find_element(By.CSS_SELECTOR,'#tableResult > tbody > tr:nth-child(1) > td:nth-child(6) > img').get_attribute("alt")
-                driver.implicitly_wait(10)
+                time.sleep(2)
                 
                 driver.find_element(By.XPATH,'//*[@id="center"]/div[3]/p/a/img').click()
-                time.sleep(3)
+                time.sleep(2)
                 
         
     #조회버튼 눌렀을시 실행할 기능
