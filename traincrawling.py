@@ -1,11 +1,13 @@
-#1751018 이우배
 #일반승차권 예매 프로그램 작성
 #열차종류는 전체로 검색
+#실행버튼을 누르기 전 tkinter창에서 잘못 입력해도 오류가 발생하지 않도록 아에 바를 만들어서 선택을 할 수 있게 tkinter에 조건이랑 GUI 추가하자
 import time
 from tkinter import *
 from tkinter import messagebox
 from tkinter import simpledialog
 from selenium.webdriver.common.alert import Alert
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -141,11 +143,33 @@ def select_train():
     range.pack()
     #000=기본,009=순방향,010=역방향
     
-    def button_set():
-     # 버튼 클릭 코드 실행
+    def sebutton_set():
+     # 조회버튼 클릭 코드 실행
         driver.find_element(By.XPATH,'//*[@id="center"]/form/div/p/a/img').click()
+        time.sleep(1)
+        for handle in driver.window_handles[1:]:
+            driver.switch_to.window(handle)
+            driver.close()
+    
+    #예약실행 버튼 클릭 코드 실행
+    def lobutoon_set():
+        unavaiable_seat= None
+        while True:
+            if unavaiable_seat == "예약하기":
+                driver.find_element(By.XPATH,'//*[@id="tableResult"]/tbody/tr[1]/td[6]/a/img').click()
+                time.sleep(3)
+                
+            else:
+                #여기 오류 발생
+                #만약 매진으로 표시가 되어 표가 없으면 다시 조회하기 버튼을 누르고 다시 예매하기 버튼을 계속 다음창 넘어갈때까지 하고 싶은데 이걸 어떻게 해야할까
+                driver.find_element(By.CSS_SELECTOR,'#tableResult > tbody > tr:nth-child(1) > td:nth-child(6) > img').get_attribute("alt")
+                driver.implicitly_wait(10)
+                
+                driver.find_element(By.XPATH,'//*[@id="center"]/div[3]/p/a/img').click()
+                time.sleep(3)
+                
         
-    #버튼 눌렀을시 실행할 기능
+    #조회버튼 눌렀을시 실행할 기능
     def execute_button():
         departure = depart.get()
         arri = arrival.get()
@@ -160,6 +184,7 @@ def select_train():
         
         driver.find_element(By.ID,'get').send_keys(arri)
         
+        #기차조회 조건 설정
         Select(driver.find_element(By.ID,'s_year')).select_by_value(year.get())
         Select(driver.find_element(By.ID,'s_month')).select_by_value(month.get())
         Select(driver.find_element(By.ID,'s_day')).select_by_value (day.get())
@@ -171,48 +196,21 @@ def select_train():
         Select(driver.find_element(By.ID,'seat01')).select_by_value(seat.get())
         Select(driver.find_element(By.ID,'seat02')).select_by_value(range.get())
         
-        button_set()
+        sebutton_set()
         
-    execute_btn = Button(root, text="실행", command=execute_button)
-    execute_btn.pack(side=BOTTOM)
+    #예약실행 버튼 눌렀을때 실행할 기능
+    def loop_butoon():
+        
+        lobutoon_set()
+    
+    #조회버튼
+    execute_btn = Button(root, text="조회", command=execute_button)
+    execute_btn.place(x=300,y=550)
+    #예약실행버튼
+    loop_btn = Button(root, text = "예약실행", command=loop_butoon)
+    loop_btn.place(x=380,y=550)
     
     root.mainloop()
     
 select_train()
-
-train_list = driver.find_element(By.CSS_SELECTOR, '#tableResult > tbody')
-print(len(train_list))
-
-for i in range(1,len(train_list)+1):
-    for j in range(3,8):
-        text = driver.find_element(By.CSS_SELECTOR,'#tableResult > tbody > tr:nth-child({i}) > td:nth-child({j})').text.replace("\n","")
-        print(text,end="")
-    print()
-    
-    #tableResult > tbody > tr:nth-child(1) > td:nth-child(3)
-    #tableResult > tbody > tr:nth-child(1) > td:nth-child(4)
-    #tableResult > tbody > tr:nth-child(1) > td:nth-child(1)
-
-#여기부터 기차 자동예매 시스템 구축(도저히 모르겠다)*(일반석만 할꺼고 안되면 다시 조회버튼 누르고 예매 버튼 확인을 반복시키다가 다음 예매 창으로 넘어가면 break, 아니면 계속 무한 반복되는 프로그램)
-
-#res = False
-    
-#while True:
-    #for i in range(1,9):
-        #standard_seat = driver.find_element(By.CSS_SELECTOR,'#tableResult > tbody > tr:nth-child({i}) > td:nth-child(6))').text
-            
-        #if "예약하기" in standard_seat:
-            #driver.find_element(By.XPATH,'//*[@id="tableResult"]/tbody/tr[{i}]/td[6]/a[1]/img').click()
-            #res = True
-            #break
-        
-    #if not res:
-        #time.sleep(4)
-            
-        #submit = driver.find_element(By.XPATH,'//*[@id="center"]/form/div/p/a/img')
-        #driver.execute_script("arguments[0].click();",submit)
-        #driver.implicitly_wait(15)
-        #time.sleep(2)
-    #else:
-        #break
             
